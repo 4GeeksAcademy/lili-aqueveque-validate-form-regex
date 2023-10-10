@@ -25,7 +25,7 @@
       crossorigin="anonymous"
     />
     <!--Link a css-->
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="src/style.css" />
   </head>
   <body>
     <section id="rest">
@@ -38,7 +38,7 @@
             </div>
             <!--BODY-->
             <div class="card-body">
-              <div class="alert alert-danger" role="alert" id="alerty">
+              <div role="alert" id="alerty">
               </div>
               <form class="row g-3">
                 <!--First line CARD, CVC, Amount-->
@@ -52,6 +52,8 @@
                     maxlength="16"
                     placeholder="XXXXXXXXXXXXXXXX"
                   />
+                  <!--INVALID FEEDBACK IF CARD INPUT IS WRONG-->
+                  <div class="invalid-feedback" id="cardFeed"></div>
                 </div>
                 <div class="col-md-3">
                   <label for="inputCvc" class="form-label">CVC #</label>
@@ -63,6 +65,8 @@
                     maxlength="4"
                     placeholder="0000"
                   />
+                  <!--INVALID FEEDBACK IF CVC INPUT IS WRONG-->
+                <div class="invalid-feedback" id="cvcFeed"></div>
                 </div>
                 <div class="col-3">
                   <label for="inputAmount" class="form-label">Amount</label>
@@ -76,6 +80,8 @@
                       id="inputAmount"
                       placeholder="Amount"
                     />
+                  <!--INVALID FEEDBACK IF AMOUNT INPUT IS WRONG-->
+                  <div class="invalid-feedback" id="amountFeed"></div>
                   </div>
                 </div>
                 <!--Second line FIRST, LAST NAME-->
@@ -83,18 +89,25 @@
                   <label for="inputFirstname" class="form-label"
                     >First Name</label
                   >
-                  <input type="text" class="form-control" id="inputFirstname" />
+                  <input type="text" class="form-control" id="inputName" />
+                  <!--INVALID FEEDBACK IF NAME INPUT IS WRONG-->
+                <div class="invalid-feedback" id="nameFeed"></div>
                 </div>
                 <div class="col-6">
                   <label for="inputLastname" class="form-label"
                     >Last Name</label
                   >
-                  <input type="text" class="form-control" id="inputLastname" />
+                  <input type="text" class="form-control" id="inputLastName" />
+                  <!--INVALID FEEDBACK IF LASTNAME INPUT IS WRONG-->
+                <div class="invalid-feedback" id="lastNameFeed"></div>
                 </div>
+              
                 <!--Third line CITY, STATE, POSTAL CODE-->
                 <div class="col-md-6">
                   <label for="inputCity" class="form-label">City</label>
                   <input type="text" class="form-control" id="inputCity" />
+                  <!--INVALID FEEDBACK IF CITY INPUT IS WRONG-->
+                <div class="invalid-feedback" id="cityFeed"></div>
                 </div>
                 <div class="col-md-4">
                   <label for="inputState" class="form-label">State</label>
@@ -107,10 +120,14 @@
                     <option>Negation state</option>
                     <option>Lost state</option>
                   </select>
+                   <!--INVALID FEEDBACK IF STATE INPUT IS WRONG-->
+                <div class="invalid-feedback" id="stateFeed"></div>
                 </div>
                 <div class="col-md-2">
                   <label for="inputZip" class="form-label">Postal Code</label>
                   <input type="text" class="form-control" id="inputZip" />
+                  <!--INVALID FEEDBACK IF ZIP INPUT IS WRONG-->
+                <div class="invalid-feedback" id="zipFeed"></div>
                 </div>
                 <!--Forth line WE ACCEPT,MESSAGE-->
                 <div class="col-6">
@@ -176,9 +193,11 @@
                   <textarea
                     class="form-control"
                     name="message"
-                    id="message"
+                    id="inputMessage"
                     rows="3"
                   ></textarea>
+                  <!--INVALID FEEDBACK IF MESSAGE INPUT IS WRONG-->
+                <div class="invalid-feedback" id="messageFeed"></div>
                   <p class="sub-text">
                     <small class="text-muted">Add any notes here.</small>
                   </p>

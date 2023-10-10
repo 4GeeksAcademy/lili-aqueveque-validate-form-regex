@@ -1,97 +1,143 @@
 document.addEventListener("DOMContentLoaded", function() {
-  // Select the form element
-  let paymentForm = document.querySelector(".payment-form");
+  // Regular Expressions
+  let isCard = /^[0-9]{13,16}$/;
+  let isCVC = /^[0-9]{3,4}$/;
+  let isAmount = /^[0-9]{1,}$/;
+  let isName = /^[a-zA-Z]+$/;
+  let isLastName = /^[a-zA-Z]+$/;
+  let isCity = /^[a-zA-Z]+$/;
+  let isZip = /^[0-9]{4,7}$/;
+  let isMessage = /^[a-zA-Z.?']+$/;
 
-  // Add event listener for form submit
-  paymentForm.addEventListener("submit", event => {
-    // Prevent the form from submitting
-    event.preventDefault();
-
-    // Form validation
-    let cardInput = document.getElementById("inputCard");
-    let cvcInput = document.getElementById("inputCvc");
-    let amountInput = document.getElementById("inputAmount");
-    let firstNameInput = document.getElementById("inputFirstname");
-    let lastNameInput = document.getElementById("inputLastname");
-    let cityInput = document.getElementById("inputCity");
-    let stateInput = document.getElementById("inputState");
-    let zipInput = document.getElementById("inputZip");
-    let messageInput = document.getElementById("message");
-
-    // Reset styles
-    let inputs = [
-      cardInput,
-      cvcInput,
-      amountInput,
-      firstNameInput,
-      lastNameInput,
-      cityInput,
-      stateInput,
-      zipInput,
-      messageInput
-    ];
-    inputs.forEach(input => {
-      input.style.backgroundColor = "";
-    });
-
-    // Validation errors
-    let errors = {
-      inputCard: "Card Number",
-      inputCvc: "Card CVC",
-      inputAmount: "Amount",
-      inputFirstname: "First Name",
-      inputLastname: "Last Name",
-      inputCity: "City",
-      inputState: "State",
-      inputZip: "Postal Code",
-      message: "Message"
-    };
-
-    let hasErrors = false;
-
-    // Validate inputs
-    for (let input of inputs) {
-      let fieldName = input.id;
-
-      // Check if the input is the state select dropdown
-      if (input === stateInput) {
-        if (input.value === "Pick a state...") {
-          input.style.backgroundColor = "rgb(248,215,218,255)"; // same color as light danger
-          hasErrors = true;
-          document.getElementById("alerty").innerHTML =
-            "Please review the following: " + errors[fieldName];
-          break;
-        }
-        // Check if input of cardInput is 16 length
-      } else if (input === cardInput) {
-        if (input.value.trim().length !== 16) {
-          input.style.backgroundColor = "rgb(248,215,218,255)"; // same color as light danger
-          hasErrors = true;
-          document.getElementById("alerty").innerHTML =
-            "Please review the following: " + errors[fieldName];
-          break;
-        }
-      } else if (input === cvcInput) {
-        if (input.value.trim().length < 3) {
-          input.style.backgroundColor = "rgb(248,215,218,255)"; // same color as light danger
-          hasErrors = true;
-          document.getElementById("alerty").innerHTML =
-            "Please review the following: " + errors[fieldName];
-          break;
-        }
-      } else if (!input.value.trim()) {
-        // For other inputs, check if they are empty
-        input.style.backgroundColor = "rgb(248,215,218,255)"; // same color as light danger
-        hasErrors = true;
-        document.getElementById("alerty").innerHTML =
-          "Please review the following: " + errors[fieldName];
-        break;
-      }
+  let form = document.querySelector(".payment-form");
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    // Destructuring
+    let {
+      inputCard,
+      inputCvc,
+      inputAmount,
+      inputName,
+      inputLastName,
+      inputCity,
+      inputState,
+      inputZip,
+      inputMessage
+    } = e.target;
+    // For invalid feedback
+    let cardFeed = document.querySelector("#cardFeed");
+    let cvcFeed = document.querySelector("#cvcFeed");
+    let amountFeed = document.querySelector("#amountFeed");
+    let nameFeed = document.querySelector("#nameFeed");
+    let lastNameFeed = document.querySelector("#lastNameFeed");
+    let cityFeed = document.querySelector("#cityFeed");
+    let stateFeed = document.querySelector("#stateFeed");
+    let zipFeed = document.querySelector("#zipFeed");
+    let messageFeed = document.querySelector("#messageFeed");
+    // Some fields are missing alert
+    let alerty = document.querySelector("#alerty");
+    // Conditions for each input
+    // CARD
+    if (inputCard.value === "") {
+      inputCard.classList.add("is-invalid");
+      cardFeed.textContent = "card is required!";
+      alerty.className = "alert alert-danger";
+      alerty.innerHTML = "Some fields are missing";
+    } else if (!isCard.test(inputCard.value)) {
+      inputCard.classList.add("is-invalid");
+      cardFeed.textContent = "Please enter a valid card";
+      alerty.className = "alert alert-danger";
+      alerty.innerHTML = "Some fields are incorrect";
+    } else {
+      inputCard.classList.remove("is-invalid");
+      cardFeed.textContent = "";
+      alerty.className = alerty.className.replace("alert alert-danger", "");
+      alerty.innerHTML = "";
     }
-
-    if (!hasErrors) {
-      alert("Successfully submitted!");
-      event.target.submit();
+    // CVC
+    if (inputCvc.value === "") {
+      inputCvc.classList.add("is-invalid");
+      cvcFeed.textContent = "cvc is required!";
+    } else if (!isCVC.test(inputCvc.value)) {
+      inputCvc.classList.add("is-invalid");
+      cvcFeed.textContent = "Please enter a valid cvc";
+    } else {
+      inputCvc.classList.remove("is-invalid");
+      cvcFeed.textContent = "";
+    }
+    // AMOUNT
+    if (inputAmount.value === "" || inputAmount.value < 1) {
+      inputAmount.classList.add("is-invalid");
+      amountFeed.textContent = "amount is required!";
+    } else if (!isAmount.test(inputAmount.value)) {
+      inputAmount.classList.add("is-invalid");
+      amountFeed.textContent = "Please enter a valid amount";
+    } else {
+      inputAmount.classList.remove("is-invalid");
+      amountFeed.textContent = "";
+    }
+    // NAME
+    if (inputName.value === "") {
+      inputName.classList.add("is-invalid");
+      nameFeed.textContent = "First name is required!";
+    } else if (!isName.test(inputName.value)) {
+      inputName.classList.add("is-invalid");
+      nameFeed.textContent = "Please enter a valid name";
+    } else {
+      inputName.classList.remove("is-invalid");
+      nameFeed.textContent = "";
+    }
+    // LAST NAME
+    if (inputLastName.value === "") {
+      inputLastName.classList.add("is-invalid");
+      lastNameFeed.textContent = "Last name is required!";
+    } else if (!isLastName.test(inputLastName.value)) {
+      inputLastName.classList.add("is-invalid");
+      lastNameFeed.textContent = "Please enter a valid last name";
+    } else {
+      inputLastName.classList.remove("is-invalid");
+      lastNameFeed.textContent = "";
+    }
+    // CITY
+    if (inputCity.value === "") {
+      inputCity.classList.add("is-invalid");
+      cityFeed.textContent = "City is required!";
+    } else if (!isCity.test(inputCity.value)) {
+      inputCity.classList.add("is-invalid");
+      cityFeed.textContent = "Please enter a valid city";
+    } else {
+      inputCity.classList.remove("is-invalid");
+      cityFeed.textContent = "";
+    }
+    // STATE
+    if (inputState.value === "Pick a state...") {
+      inputState.classList.add("is-invalid");
+      stateFeed.textContent = "City is required!";
+    } else {
+      inputState.classList.remove("is-invalid");
+      stateFeed.textContent = "";
+    }
+    // ZIP
+    if (inputZip.value === "") {
+      inputZip.classList.add("is-invalid");
+      zipFeed.textContent = "Zip is required!";
+    } else if (!isZip.test(inputZip.value)) {
+      inputZip.classList.add("is-invalid");
+      zipFeed.textContent = "Please enter a valid postal code";
+    } else {
+      inputZip.classList.remove("is-invalid");
+      zipFeed.textContent = "";
+    }
+    // MESSAGE
+    if (inputMessage.value === "") {
+      inputMessage.classList.add("is-invalid");
+      messageFeed.textContent = "Message is required!";
+    } else if (!isMessage.test(inputMessage.value)) {
+      inputMessage.classList.add("is-invalid");
+      messageFeed.textContent = "Please enter a valid message";
+    } else {
+      inputMessage.classList.remove("is-invalid");
+      messageFeed.textContent = "";
     }
   });
 });
