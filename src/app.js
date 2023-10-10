@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function() {
     option1: /^5[1-5][0-9]{14}$/, // Mastercard starts with 5 and is 16 digits long
     option2: /^4[0-9]{12}(?:[0-9]{3})?$/, // Visa starts with 4 and can be 13 or 16 digits long
     option3: /^3(?:0[0-5]|[68][0-9])[0-9]{11}$/, // Diners Club starts with 3 and is 14 digits long
-    option4: /^3[47][0-9]{13}$/ // American Express starts with 34 or 37 and is 15 digits long
+    option4: /^3[47][0-9]{13}$/, // American Express starts with 34 or 37 and is 15 digits long
   };
   let isCVC = /^[0-9]{3,4}$/;
   let isAmount = /^[0-9]{1,}$/;
@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function() {
   let isMessage = /^[a-zA-Z0-9.,:)(?'\s]+$/;
 
   let form = document.querySelector(".payment-form");
-  form.addEventListener("submit", e => {
+  form.addEventListener("submit", (e) => {
     e.preventDefault();
     // Destructuring
     let {
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function() {
       inputState,
       inputZip,
       input_Accept,
-      inputMessage
+      inputMessage,
     } = e.target;
     // For invalid feedback
     let cardFeed = document.querySelector("#cardFeed");
@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function() {
       alerty.className = alerty.className.replace("alert alert-danger", "");
       alerty.innerHTML = "";
     }
-    // CVC FALTA LO DE LOS FIELDS ARE MISSING!!!!!
+    // CVC
     if (inputCvc.value === "") {
       inputCvc.classList.add("is-invalid");
       cvcFeed.textContent = "cvc is required!";
